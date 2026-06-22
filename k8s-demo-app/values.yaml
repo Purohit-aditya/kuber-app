@@ -1,0 +1,45 @@
+# Default values for k8s-demo-app
+
+replicaCount: 3
+
+image:
+  repository: adityapurohit93/metrics-app
+  tag: v1
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 3000
+  nodePort: 31700
+
+configMap:
+  appVersion: "1.0.0"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: http
+  initialDelaySeconds: 3
+  periodSeconds: 5
+
+serviceMonitor:
+  enabled: true
+  interval: 15s
+  path: /metrics
+  release: kube-prometheus-stack
