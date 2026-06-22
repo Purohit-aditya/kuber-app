@@ -1,6 +1,6 @@
 # Default values for k8s-demo-app
 
-replicaCount: 4
+replicaCount: 3
 
 image:
   repository: adityapurohit93/metrics-app
